@@ -39,6 +39,19 @@ export class Todo {
     }
   }
 
+   onEdit(index: number){
+     const todoItem = this.todoList[index];
+     const dialogRef = this.dialog.open(Add, {
+       data: { title: todoItem.title }
+     });
+     dialogRef.afterClosed().subscribe((result: any) => {
+       if(result){
+         this.todoList[index].title = result;
+         this.cdr.detectChanges();
+       }
+     });
+   }
+
   onAdd(){
     const dialogRef = this.dialog.open(Add);
     dialogRef.afterClosed().subscribe((result: any) => {

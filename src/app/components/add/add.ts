@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { SharedModules } from '../../shared/shared.module';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-add',
@@ -14,10 +14,11 @@ export class Add {
 
   constructor(
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<Add>
+    private dialogRef: MatDialogRef<Add>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ){
     this.todoForm = this.formBuilder.group({
-      title: ''
+      title: data?.title || ''
     });
   }
 
