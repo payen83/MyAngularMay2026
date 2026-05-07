@@ -21,6 +21,9 @@
             <button mat-icon-button routerLink="/update/{{element.id}}">
                 <mat-icon>edit</mat-icon>
             </button>
+            <button mat-icon-button (click)="onDelete(element.id)">
+                <mat-icon>delete_forever</mat-icon>
+            </button>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
