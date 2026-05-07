@@ -25,14 +25,19 @@ export class Api {
   httpPost(path: string, payload: any, method?: string){
     let fullURL: string = this.baseURL+path;
     let headers = {headers: new HttpHeaders};
-    let token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJyYWhtYW5AbWFpbC5jb20iLCJpYXQiOjE3NzgxMzk5MjgsImV4cCI6MTc3ODE0MzUyOH0.CuAzh80pMWBZAXsoO0alJWb0is0bE301lA4IF6FU9T0';
-    payload = {...payload, user_id: 1};
-
+    let token: string = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJyYWhtYW5AbWFpbC5jb20iLCJpYXQiOjE3NzgxNjg4MDgsImV4cCI6MTc3ODE3MjQwOH0.2wVeTU_A5PBrFQjBgphBxzSxt4N7BE9aNi2jgfZpqtI';
     // Check if payload is FormData (for file uploads)
     const isFormData = payload instanceof FormData;
 
+    if (isFormData) {
+      payload.append('user_id', '1');
+    } else {
+      payload = {...payload, user_id: 1};
+    }
+
     if(token){
       if (isFormData) {
+        
         // For FormData, don't set Content-Type as it will be set automatically with boundary
         headers = {headers: new HttpHeaders({
           Authorization: `Bearer ${token}`
@@ -45,6 +50,7 @@ export class Api {
       }
     }
     return new Promise((resolve, reject)=>{
+      console.log(payload);
       if(method == 'put'){
         this.http.put(fullURL, payload, headers).subscribe({
           next: (response: any)=>{resolve(response)},

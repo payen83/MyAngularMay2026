@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SharedModules } from '../../shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Api } from '../../services/api';
@@ -15,6 +15,7 @@ export class Add implements OnInit {
    public reportForm: FormGroup;
    public id: any;
    public selectedFile: File | null = null;
+   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
    constructor(
      public formBuilder: FormBuilder,
      public apiService: Api,
@@ -98,23 +99,23 @@ export class Add implements OnInit {
      }
    }
 
-   async onSubmit(){
-     if(this.reportForm.invalid){
+    async onSubmit(){
+      if(this.reportForm.invalid){
+        return;
+      }
 
-     }
-
-     try {
+      try {
        const rawData: any = this.reportForm.value;
        let reportData: any = {
          ...rawData,
          date: this.formatDateToString(rawData.date) ?? rawData.date
        }
        
-       // Create FormData for file upload
-       const formData = new FormData();
-       formData.append('title', reportData.title);
-       formData.append('date', reportData.date);
-       formData.append('category', reportData.category);
+        // Create FormData for file upload
+        const formData = new FormData();
+        formData.append('title', reportData.title);
+        formData.append('date', reportData.date);
+        formData.append('category', reportData.category);
        
        // Append file if selected
        if (this.selectedFile) {
