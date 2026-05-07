@@ -9,9 +9,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatDividerModule } from "@angular/material/divider";
 import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+
+
+import { RouterLink } from "@angular/router";
 
 export const SharedModules = [
     CommonModule, FormsModule, MatButtonModule, MatIconModule,
     MatInputModule, MatFormFieldModule, MatListModule, MatDialogModule,
-    MatDialogModule, MatTableModule, MatDividerModule, MatCardModule, ReactiveFormsModule
+    MatDialogModule, MatTableModule, MatDividerModule, MatCardModule, ReactiveFormsModule,
+    RouterLink, MatDatepickerModule, MatNativeDateModule, MatSelectModule
 ]

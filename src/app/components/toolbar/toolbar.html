@@ -1,7 +1,7 @@
   <mat-toolbar>
     <div class="title">Menu</div>
     <span class="spacer"></span>
-    <a routerLink="/home" mat-button class="icon">Home</a>
-    <a routerLink="/calculator" mat-button class="icon">Calculator</a>
-    <a routerLink="/todo" mat-button class="icon">Todo</a>
-  </mat-toolbar>
+    @for (menuItem of menu; track $index) {
+      <a (click)="navigatePage(menuItem)" mat-button class="icon">{{ menuItem.title }}</a>
+    }
+   </mat-toolbar>
