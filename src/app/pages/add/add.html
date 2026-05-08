@@ -33,9 +33,9 @@
                     </button>
                     <input #fileInput type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
                 </mat-form-field>
-                <div class="image">
-                    @if(selectedFile){
-                        <img [src]="selectedFile"/>
+                <div class="image" [align]="'center'">
+                    @if(imageUrl){
+                        <img height="320" [src]="imageUrl" alt="Selected image preview"/>
                     }
                 </div>
                 <mat-card-actions class="action-buttons">

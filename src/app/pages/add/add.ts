@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { SharedModules } from '../../shared/shared.module';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Api } from '../../services/api';
@@ -11,10 +11,12 @@ import { Ui } from '../../services/ui';
   templateUrl: './add.html',
   styleUrl: './add.scss',
 })
-export class Add implements OnInit {
+export class Add implements OnInit, OnDestroy {
   public reportForm: FormGroup;
   public id: any;
   public selectedFile: File | null = null;
+  public imageUrl: string | null = null;
+  public baseURL: string = 'http://localhost:3000/api/'
   @ViewChild('fileInput', {static: false}) fileInput!: ElementRef;
 
   constructor(
@@ -33,11 +35,16 @@ export class Add implements OnInit {
 
   onFileSelected(event: any){
       const file: File = event.target.files[0];
-      if(file) this.selectedFile = file;
+      if(file) {
+        this.selectedFile = file;
+        if(this.imageUrl) URL.revokeObjectURL(this.imageUrl);
+        this.imageUrl = URL.createObjectURL(file);
+      }
   }
 
   async ngOnInit(){
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    console.log(this.apiService.baseURL)
     if(this.id){
       try{
         let response: any = await this.apiService.httpGet('/reports/'+this.id);
@@ -48,11 +55,18 @@ export class Add implements OnInit {
             category: report.category,
             date: this.parseApiDate(report.date)
           })
+          if(report.image_path){
+            this.imageUrl = this.apiService.baseURL+'/'+report.image_path;
+          }
         }
       } catch(error){
         console.error(error);
       }
     }
+  }
+
+  ngOnDestroy(){
+    if(this.imageUrl) URL.revokeObjectURL(this.imageUrl);
   }
 
   private parseApiDate(value: string | Date | null): Date | null {
